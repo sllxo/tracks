@@ -3,142 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slit | Profile</title>
+    <title>Rizz Services</title>
     <style>
-        :root {
-            --bg-color: #050505;
-            --accent-color: #ffffff;
-            --card-bg: rgba(20, 20, 20, 0.6);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: white;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        /* Bleeding/Glitch Intro Text */
-        #intro-screen {
-            position: absolute;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            z-index: 10;
-            background: var(--bg-color);
-            animation: fadeOut 0.5s ease forwards 2.5s;
-        }
-
-        .bleeding-text {
-            font-size: 5rem;
-            font-weight: 900;
-            font-style: italic;
-            text-transform: uppercase;
-            letter-spacing: 10px;
-            position: relative;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
             color: #fff;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
-            animation: bleed 2s infinite;
+            overflow-x: hidden;
         }
 
-        @keyframes bleed {
-            0% { text-shadow: 2px 0 red, -2px 0 blue; transform: scale(1); }
-            50% { text-shadow: 5px 0 red, -5px 0 blue; transform: scale(1.02); opacity: 0.8; }
-            100% { text-shadow: 2px 0 red, -2px 0 blue; transform: scale(1); }
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
         }
 
-        @keyframes fadeOut {
-            to { opacity: 0; visibility: hidden; }
-        }
-
-        /* Bio Card Styling */
-        #bio-card {
+        .intro-screen.fade-out {
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInCard 1s ease forwards 3s;
-            width: 350px;
-            padding: 40px;
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
+            pointer-events: none;
+        }
+
+        .intro-text {
+            font-size: 120px;
+            font-weight: 900;
+            letter-spacing: 10px;
+            background: linear-gradient(45deg, #ffffff, #666666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: bounce 2s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-50px); }
+            50% { transform: translateY(0); }
+            75% { transform: translateY(-30px); }
+        }
+
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            min-height: 100vh;
+        }
+
+        .main-content.show {
+            opacity: 1;
+        }
+
+        .glass-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px;
             text-align: center;
+        }
+
+        .hero {
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 80px 40px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.3s ease;
         }
 
-        @keyframes fadeInCard {
-            to { opacity: 1; transform: translateY(0); }
+        .hero:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.5);
         }
 
-        .avatar {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(45deg, #222, #444);
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        h2 {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
-
-        .username {
-            color: #888;
-            font-size: 0.9rem;
+        h1 {
+            font-size: 72px;
+            font-weight: 900;
             margin-bottom: 20px;
-            display: block;
+            background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .description {
-            color: #ccc;
-            line-height: 1.6;
-            font-size: 1rem;
-            margin-bottom: 30px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 5px 12px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            font-size: 0.75rem;
+        .tagline {
+            font-size: 24px;
             color: #aaa;
-            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .year {
+            font-size: 18px;
+            color: #666;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            margin-top: 50px;
+            display: inline-block;
+            padding: 18px 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: scale(1.05);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 40px 30px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            color: #888;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .intro-text {
+                font-size: 60px;
+            }
+            
+            h1 {
+                font-size: 48px;
+            }
+            
+            .tagline {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
 <body>
-
-    <div id="intro-screen">
-        <h1 class="bleeding-text">RIZZ</h1>
+    <div class="intro-screen" id="intro">
+        <div class="intro-text">RIZZ</div>
     </div>
 
-    <div id="bio-card">
-        <div class="avatar"></div>
-        <h2>Slit</h2>
-        <span class="username">@slit</span>
-        
-        <p class="description">
-            I own a lot of stuff.
-        </p>
+    <div class="main-content" id="mainContent">
+        <div class="glass-container">
+            <div class="hero">
+                <h1>Rizz Services</h1>
+                <p class="tagline">Providing Members Since 2024</p>
+                <p class="year">Premium Excellence</p>
+                <a href="#" class="cta-button">Get Started</a>
+            </div>
 
-        <div class="badge">Verified Owner</div>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Fast Service</h3>
+                    <p class="feature-desc">Lightning-quick delivery and response times for all your needs</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Secure</h3>
+                    <p class="feature-desc">Top-tier security measures to protect your information</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💎</div>
+                    <h3 class="feature-title">Premium Quality</h3>
+                    <p class="feature-desc">Only the finest services delivered to our valued members</p>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <script>
+        setTimeout(() => {
+            document.getElementById('intro').classList.add('fade-out');
+            document.getElementById('mainContent').classList.add('show');
+        }, 3000);
+    </script>
 </body>
 </html>
